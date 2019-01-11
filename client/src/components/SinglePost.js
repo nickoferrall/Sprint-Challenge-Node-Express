@@ -41,22 +41,22 @@ class SinglePost extends Component {
     this.state = {
       posts: props.posts,
       id: props.match.params.id,
-      tags: []
+      actions: []
     };
   }
 
   componentDidMount() {
     axios
-      .get(`http://localhost:9000/api/tags/${this.state.id}`)
+      .get(`http://localhost:9000/api/projects/getactions/${this.state.id}`)
       .then(response => {
+        console.log('cdm response', response);
         this.setState({
-          tags: response.data
+          actions: response.data
         });
       });
   }
 
   render() {
-    console.log('single post state', this.state.posts);
     return (
       <SinglePostContainerDiv>
         <SinglePostWrapperDiv to={'/'}>
@@ -68,6 +68,18 @@ class SinglePost extends Component {
               </div>
             ) : null;
           })}
+          <DescriptionDiv>
+            {this.state.actions.map((action, index) => {
+              return (
+                <div key={index}>
+                  <DescriptionDiv>
+                    Action Description: {action.description}
+                  </DescriptionDiv>
+                  <DescriptionDiv>Action Notes: {action.notes}</DescriptionDiv>
+                </div>
+              );
+            })}
+          </DescriptionDiv>
         </SinglePostWrapperDiv>
       </SinglePostContainerDiv>
     );

@@ -39,7 +39,6 @@ const DescriptionDiv = styled.div`
 `;
 
 const PostList = props => {
-  console.log('post list props', props);
   return (
     <PostContainerDiv>
       <StyledLink to={`/post/${props.post.id}`}>
