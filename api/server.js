@@ -50,20 +50,20 @@ server.post('/api/projects', async (req, res) => {
   }
 });
 
-// server.put('/api/projects/:id', async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const changes = req.body;
-//     console.log('req body from put..', req.body);
-//     const count = await projectDb.update(id, changes);
-//     res.status(200).json({ message: `${count} post has been updated.` });
-//   } catch (error) {
-//     console.log('error from put', error);
-//     res
-//       .status(500)
-//       .json({ message: 'The user information could not be modified.' });
-//   }
-// });
+server.put('/api/projects/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const changes = req.body;
+    console.log('req body from put..', req.body);
+    const count = await projectDb.update(id, changes);
+    res.status(200).json({ message: `${count} post has been updated.` });
+  } catch (error) {
+    console.log('error from put', error);
+    res
+      .status(500)
+      .json({ message: 'The user information could not be modified.' });
+  }
+});
 
 server.delete('/api/projects/delete/:id', async (req, res) => {
   try {
@@ -109,26 +109,12 @@ server.get('/api/actions/:id', async (req, res) => {
   }
 });
 
-// server.post('/api/actions', async (req, res) => {
-//   try {
-//     const action = req.body;
-//     const actionId = await actionDb.insert(action);
-//     res.status(201).json(actionId);
-//   } catch (error) {
-//     res.status(400).json({
-//       errorMessage:
-//         'There was an error while saving the action to the database.'
-//     });
-//   }
-// });
-
 server.post('/api/actions', async (req, res) => {
   try {
     const actions = req.body;
     const actionInfo = await actionDb.insert(actions);
     res.status(201).json(actionInfo);
   } catch (error) {
-    console.log('error from post', error);
     res.status(400).json({
       errorMessage: 'There was an error while saving the post to the database.'
     });
@@ -142,7 +128,6 @@ server.put('/api/actions/:id', async (req, res) => {
     const count = await actionDb.update(id, changes);
     res.status(201).json(count);
   } catch (error) {
-    console.log('error from put', error);
     res.status(400).json({
       errorMessage:
         'There was an error while updating the action to the database.'
