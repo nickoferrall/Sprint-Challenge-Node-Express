@@ -35,14 +35,28 @@ server.get('/api/projects/:id', async (req, res) => {
   }
 });
 
+server.get('/api/projects/getactions/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const projects = await projectDb.getProjectActions(id);
+    res.status(200).json(projects);
+  } catch (error) {
+    res.status(400).json({
+      errorMessage: 'Unable to get projects.'
+    });
+  }
+});
+
 server.post('/api/projects', async (req, res) => {
   try {
     const project = req.body;
-    console.log('from project', req.body);
-    const projectId = await projectDb.insert(project);
-    res.status(201).json(projectId);
+    if (project.name.length > 128) {
+      res.status(422).json({ message: 'The name is too long!' });
+    } else {
+      const projectId = await projectDb.insert(project);
+      res.status(201).json(projectId);
+    }
   } catch (error) {
-    console.log('eror from post =', error);
     res.status(400).json({
       errorMessage:
         'There was an error while saving the project to the database.'
@@ -52,11 +66,14 @@ server.post('/api/projects', async (req, res) => {
 
 server.put('/api/projects/:id', async (req, res) => {
   try {
-    const { id } = req.params;
     const changes = req.body;
-    console.log('req body from put..', req.body);
-    const count = await projectDb.update(id, changes);
-    res.status(200).json({ message: `${count} post has been updated.` });
+    if (changes.name.length > 128) {
+      res.status(422).json({ message: 'The name is too long!' });
+    } else {
+      const { id } = req.params;
+      const count = await projectDb.update(id, changes);
+      res.status(200).json({ message: `The post has been updated.` });
+    }
   } catch (error) {
     console.log('error from put', error);
     res
@@ -65,7 +82,7 @@ server.put('/api/projects/:id', async (req, res) => {
   }
 });
 
-server.delete('/api/projects/delete/:id', async (req, res) => {
+server.delete('/api/projects/:id', async (req, res) => {
   try {
     const count = await projectDb.remove(req.params.id);
     if (count === 0) {
@@ -112,8 +129,12 @@ server.get('/api/actions/:id', async (req, res) => {
 server.post('/api/actions', async (req, res) => {
   try {
     const actions = req.body;
-    const actionInfo = await actionDb.insert(actions);
-    res.status(201).json(actionInfo);
+    if (actions.description.length > 128) {
+      res.status(422).json({ message: 'The description is too long!' });
+    } else {
+      const actionInfo = await actionDb.insert(actions);
+      res.status(201).json(actionInfo);
+    }
   } catch (error) {
     res.status(400).json({
       errorMessage: 'There was an error while saving the post to the database.'
@@ -123,10 +144,14 @@ server.post('/api/actions', async (req, res) => {
 
 server.put('/api/actions/:id', async (req, res) => {
   try {
-    const { id } = req.params;
     const changes = req.body;
-    const count = await actionDb.update(id, changes);
-    res.status(201).json(count);
+    if (changes.description.length > 128) {
+      res.status(422).json({ message: 'The description is too long!' });
+    } else {
+      const { id } = req.params;
+      const count = await actionDb.update(id, changes);
+      res.status(201).json(count);
+    }
   } catch (error) {
     res.status(400).json({
       errorMessage:
@@ -146,7 +171,6 @@ server.delete('/api/actions/:id', async (req, res) => {
       res.status(200).json({ message: 'The action has been removed.' });
     }
   } catch (error) {
-    console.log('err is', error);
     res.status(500).json({ message: 'The action could not be removed.' });
   }
 });
