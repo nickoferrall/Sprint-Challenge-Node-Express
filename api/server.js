@@ -33,7 +33,7 @@ server.get('/api/projects/:id', async (req, res) => {
 
 server.post('/api/projects', async (req, res) => {
   try {
-    const project = await req.body;
+    const project = req.body;
     console.log('from project', req.body);
     const projectId = await projectDb.insert(project);
     res.status(201).json(projectId);
