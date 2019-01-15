@@ -26,13 +26,26 @@ Demonstrate your understanding of this Sprint's concepts by answering the follow
 
 - [ ] Mention two parts of Express that you learned about this week.
 
+It's a Node JS framework - the most starred on npm.
+It saves us from repeating code and enables us to use middleware.
+
 - [ ] Describe Middleware?
+
+Middleware sits between the different inputs and outputs of different systems.
+It has access to request and response objects.
+It can make changes to the code and req-res, end the req-res cycle and call the next middleware in the stack.
 
 - [ ] Describe a Resource?
 
+Resources are things that our application cares about such as users, products, orders, clients.
+
 - [ ] What can the API return to help clients know if a request was successful?
 
+The API can output a response status to let the client know if it's been successful.
+
 - [ ] How can we partition our application into sub-applications?
+
+We can partition our application into different Route files and import them into the API server file.
 
 ## Project Setup
 
@@ -44,12 +57,12 @@ Follow these steps to set up and work on your project:
 - [ ] Create a new Branch on the clone: git checkout -b `<firstName-lastName>`.
 - [ ] Implement the project on this Branch, committing changes regularly.
 - [ ] Push commits: git push origin `<firstName-lastName>`.
- 
+
 Follow these steps for completing your project.
 
-- [ ] Submit a Pull-Request to merge <firstName-lastName> Branch into master (student's  Repo). **Please don't merge your own pull request.**
+- [ ] Submit a Pull-Request to merge <firstName-lastName> Branch into master (student's Repo). **Please don't merge your own pull request.**
 - [ ] Add your Project Manager as a Reviewer on the Pull-request
-- [ ] PM then will count the HW as done by  merging the branch back into master.
+- [ ] PM then will count the HW as done by merging the branch back into master.
 
 ## Database Persistence Helpers
 
